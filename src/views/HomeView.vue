@@ -1,7 +1,7 @@
 <template>
 <div class="container">
 <section class="bg-light">
-  <div class="container d-flex mb-2" style="margin-top: 2rem; margin-left: 1rem">
+  <div class="container d-flex mb-2" style="margin-left: 1rem">
     <div class="mr-auto p-2">
       <h4 style="margin-top: 2rem">Country Data</h4>
     </div>

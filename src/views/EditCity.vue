@@ -2,36 +2,38 @@
   <div>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 offset-md-3">
-          <h2>Edit City</h2>
-          <form @submit.prevent="handleSubmit">
-            <div class="form-group">
-              <input
-                type="text"
-                class="form-control mb-2"
-                placeholder="Input city"
-                v-model="cityInfo.city"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="text"
-                class="form-control mb-2"
-                placeholder="Input country"
-                v-model="cityInfo.country"
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="text"
-                class="form-control mb-2"
-                placeholder="Input postal code"
-                v-model="cityInfo.postal_code"
-              />
-            </div>
-            <button class="btn btn-primary">Update City</button>
-          </form>
-        </div>
+            <section class="bg-light mt-2 p-5">
+                <div class="col-md-6 offset-md-3">
+                <h2>Edit City</h2>
+                <form @submit.prevent="handleSubmit">
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input city"
+                        v-model="cityInfo.city"
+                    />
+                    </div>
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input country"
+                        v-model="cityInfo.country"
+                    />
+                    </div>
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input postal code"
+                        v-model="cityInfo.postal_code"
+                    />
+                    </div>
+                    <button class="btn btn-primary">Update City</button>
+                </form>
+                </div>
+            </section>
       </div>
     </div>
   </div>
