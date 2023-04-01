@@ -51,39 +51,29 @@
 </template>
 
 <script>
-import citiesColRef from '@/firebase';
-import {getDocs, doc, deleteDoc} from 'firebase/firestore';
+import { computed } from 'vue'
+import {useCityStore} from '../city'
 export default {
   name: 'HomeView',
   components: {
   },
-  data(){
+  setup(){
+    const cityStore = useCityStore()
+
+    const deleteCity = async (cityId) => {
+      await cityStore.deleteCity(cityId)
+    }
+
+    const cities = computed(() => cityStore.cities)
+    
     return {
-      cities: [],
-      selectedDoc: null
+      cityStore,
+      deleteCity,
+      cities
     }
   }, 
-  methods: {
-    async fetchCities(){
-      let citiesSnapShot = await getDocs(citiesColRef);
-      let cities = [];
-      citiesSnapShot.forEach((city) => {
-        let cityData = city.data();
-        cityData.id = city.id;
-        cities.push(cityData);
-      });
-      console.log(cities);
-      this.cities = cities
-    },
-    async deleteCity(cityId){
-      let cityRef = doc(citiesColRef, cityId);
-      await deleteDoc(cityRef)
-      alert('City deleted successfully!')
-      this.$router.go()
-    }
-  },
   created(){
-    this.fetchCities()
+    this.cityStore.fetchCities()
   }
 }
 </script>

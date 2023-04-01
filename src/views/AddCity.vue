@@ -10,7 +10,7 @@
                         type="text"
                         class="form-control mb-2"
                         placeholder="Input city"
-                        v-model="city"
+                        v-model="cityStore.city"
                     />
                     </div>
                     <div class="form-group">
@@ -18,7 +18,7 @@
                         type="text"
                         class="form-control mb-2"
                         placeholder="Input country"
-                        v-model="country"
+                        v-model="cityStore.country"
                     />
                     </div>
                     <div class="form-group">
@@ -26,7 +26,7 @@
                         type="text"
                         class="form-control mb-2"
                         placeholder="Input postal code"
-                        v-model="postal_code"
+                        v-model="cityStore.postal_code"
                     />
                     </div>
                     <button class="btn btn-primary">Create City</button>
@@ -38,24 +38,28 @@
 </template>
 
 <script>
-import citiesColRef from '@/firebase';
-import {addDoc} from 'firebase/firestore';
+import { useRouter } from 'vue-router';
+// import { computed } from 'vue'
+import {useCityStore} from '../city'
 export default {
-    data(){
-        return {
-            city: null,
-            country: null,
-            postal_code : null
-        }
-    },
-    methods: {
-        async createCity(){
-            console.log('Creating Document');
-            const addedDoc = await addDoc(citiesColRef, this.$data);
+    setup(){
+        const router = useRouter();
+        const cityStore = useCityStore()
+
+        const createCity = async () => {
+            await cityStore.createCity()
             alert('Document created successfully!')
-            console.log(addedDoc)
-            this.$router.push('/')
+            router.push('/')
         }
+
+        return {
+            cityStore,
+            createCity,
+        }
+
+    },
+    created(){
+        this.cityStore.fetchCities()
     }
 };
 </script>

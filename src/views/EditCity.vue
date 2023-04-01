@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-6 offset-md-3">
           <h2>Edit City</h2>
-          <form @submit.prevent="updateCity">
+          <form @submit.prevent="handleSubmit">
             <div class="form-group">
               <input
                 type="text"
@@ -38,45 +38,42 @@
 </template>
 
 <script>
-import citiesColRef from "../firebase";
-import { getDoc, doc, setDoc } from "firebase/firestore";
+import { setDoc } from 'firebase/firestore';
+import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
+import { useCityStore } from '../city';
+
 export default {
-  data() {
-    return {
-      selectedCity: {},
-      cityId: null,
-      docRef: null,
-      cityInfo: {
-        city: null,
-        country: null,
-        postal_code: null,
-      },
+  setup() {
+    const cityId = ref(null);
+    const cityInfo = ref({});
+
+    const router = useRouter();
+    const cityUpdate = useCityStore();
+
+    const updateCity = async () => {
+      await setDoc(cityUpdate.docRef, cityInfo.value);
+      alert('Document updated successfully!');
+      router.push('/');
     };
-  },
 
-  methods: {
-    async getCity() {
-      let cityRef = doc(citiesColRef, this.cityId);
-      this.docRef = cityRef;
-      let city = await getDoc(this.docRef);
-      let cityData = city.data();
-      this.cityInfo.city = cityData.city;
-      this.cityInfo.country = cityData.country;
-      this.cityInfo.postal_code = cityData.postal_code;
-    },
-    async updateCity() {
-      await setDoc(this.docRef, this.cityInfo);
-      alert(
-        `The city with ID of ${this.cityId} has been updated successfully!`
-      );
-      this.$router.push("/");
-    },
-  },
 
-  created() {
-    let cityId = this.$route.params.cityId;
-    this.cityId = cityId;
-    this.getCity();
+    const handleSubmit = () => {
+      updateCity();
+    };
+
+    const params = computed(() => router.currentRoute.value.params);
+    cityId.value = params.value.cityId;
+    cityUpdate.cityId = cityId.value;
+
+    cityUpdate.getCity().then(() => {
+      cityInfo.value = cityUpdate.cityInfo;
+    });
+
+    return {
+      cityInfo,
+      handleSubmit,
+    };
   },
 };
 </script>
