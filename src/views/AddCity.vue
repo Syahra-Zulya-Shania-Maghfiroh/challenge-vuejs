@@ -2,26 +2,35 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="offside-md-3">
-                    <h2>Add City</h2>
-                    <form @submit.prevent="createCity">
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <input type="text" class="form-control mb-4" placeholder="Input city" v-model="city">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <input type="text" class="form-control mb-4" placeholder="Input country" v-model="country">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="mb-3">
-                                <input type="number" class="form-control mb-4" placeholder="Input postal code" v-model="postal_code">
-                            </div>
-                        </div>
-                    <button type="submit" class="btn btn-primary">Create City</button>
-                    </form>
+                <div class="col-md-6 offset-md-3">
+                <h2>Add City</h2>
+                <form @submit.prevent="createCity">
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input city"
+                        v-model="city"
+                    />
+                    </div>
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input country"
+                        v-model="country"
+                    />
+                    </div>
+                    <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control mb-2"
+                        placeholder="Input postal code"
+                        v-model="postal_code"
+                    />
+                    </div>
+                    <button class="btn btn-primary">Create City</button>
+                </form>
                 </div>
             </div>
         </div>
