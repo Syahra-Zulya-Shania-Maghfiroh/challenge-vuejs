@@ -1,6 +1,5 @@
 <template>
 <div class="container">
-
 <section class="bg-light">
   <div class="container d-flex mb-2" style="margin-top: 2rem; margin-left: 1rem">
     <div class="mr-auto p-2">
@@ -8,17 +7,15 @@
     </div>
     <div class="p-2">
       <div class="form-group" style="width: 15rem; margin-top: 2rem; align: right">
-        <!-- <label for="">Filter Guest Name</label> -->
         <input
-          type="number"
+          type="text"
           class="form-control"
-          placeholder="Input postal code"
+          placeholder="Input city name"
+          v-model="searchCity"
         />
       </div>
     </div>
   </div>
-    <div class="row" style="margin-left: 1rem"></div>
-    <!-- <h3>All Order Data</h3> -->
   <div class="rounded h-100 p-4">
     <table class="table">
       <thead>
@@ -31,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(city, index) in cities" :key="index.id">
+        <tr v-for="(city, index) in filteredCities" :key="city.id">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ city.city }}</td>
           <td>{{ city.country }}</td>
@@ -49,9 +46,8 @@
   </section>
 </div>
 </template>
-
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import {useCityStore} from '../city'
 export default {
   name: 'HomeView',
@@ -59,17 +55,23 @@ export default {
   },
   setup(){
     const cityStore = useCityStore()
+    const searchCity = ref('')
 
     const deleteCity = async (cityId) => {
       await cityStore.deleteCity(cityId)
     }
 
-    const cities = computed(() => cityStore.cities)
-    
+    const filteredCities = computed(() => {
+      return cityStore.cities.filter(city => {
+        return city.city.toLowerCase().includes(searchCity.value.toLowerCase())
+      })
+    })
+
     return {
       cityStore,
       deleteCity,
-      cities
+      filteredCities,
+      searchCity
     }
   }, 
   created(){
